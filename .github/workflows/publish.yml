@@ -17,11 +17,12 @@ jobs:
     - name: Install deps
       run: yarn
     - name: Test
-      run: yarn test
+      run: CI=1 yarn test
     - name: Build
       run: yarn build
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1.2.5
+      #if: github.ref == 'master'
       with:
         # Create incremental commit instead of doing push force
         keep_history: true
