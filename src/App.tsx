@@ -1,26 +1,128 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
 
+import { parse, Type } from './parse';
+
+const example = `
+error[E0277]: the trait bound \`&alloc::sync::Arc<sc_client::client::Client<sc_client_db::Backend<sp_runtime::generic::block::Block<sp_runtime::generic::header::Header<u32, sp_runtime::traits::BlakeTwo256>, sp_runtime::OpaqueExtrinsic>>, sc_client::call_executor::LocalCallExecutor<sc_client_db::Backend<sp_runtime::generic::block::Block<sp_runtime::generic::header::Header<u32, sp_runtime::traits::BlakeTwo256>, sp_runtime::OpaqueExtrinsic>>, sc_executor::native_executor::NativeExecutor<node_executor::Executor>>, sp_runtime::generic::block::Block<sp_runtime::generic::header::Header<u32,
+sp_runtime::traits::BlakeTwo256>, sp_runtime::OpaqueExtrinsic>, node_runtime::RuntimeApi>>: sp_blockchain::backend::HeaderBackend<sp_runtime::generic::block::Block<sp_runtime::generic::header::Header<u32, sp_runtime::traits::BlakeTwo256>, sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic<pallet_indices::address::Address<sp_core::crypto::AccountId32, u32>, node_runtime::Call, sp_runtime::MultiSignature, (frame_system::CheckVersion<node_runtime::Runtime>, frame_system::CheckGenesis<node_runtime::Runtime>, frame_system::CheckEra<node_runtime::Runtime>, frame_system::CheckNonce<node_runtime::Runtime>, frame_system::CheckWeight<node_runtime::Runtime>, pallet_transaction_payment::ChargeTransactionPayment<node_runtime::Runtime>, pallet_contracts::CheckBlockGasLimit<node_runtime::Runtime>)>>>\` is not satisfied
+`;
+
 const App: React.FC = () => {
+  const [input, setInput] = useState(example);
+  const [result, setResult] = useState(parseInput(input));
+
+  function parseInput(val: string) {
+    return parse(val);
+  }
+
+  function onChange(val: string) {
+    setInput(val);
+    const res = parseInput(val);
+    console.dir(res);
+    setResult(res);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="input">
+        <div className="block">
+          <textarea
+            onChange={ev => onChange(ev.target.value)}
+            value={input}
+          />
+        </div>
+        <div className="block">
+          <FlatTypes flat={result.flat} />
+        </div>
+      </div>
+      <div className="output">
+        <div className="block">
+          <TypeExplorer roots={result.roots} />
+        </div>
+      </div>
     </div>
   );
+}
+
+function FlatTypes({ flat }: { flat: { [key:string]: Type } }) {
+  const types = Object.values(flat);
+  types.sort((a, b) => {
+    const as = a.toString();
+    const bs = b.toString();
+    if (as < bs) {
+      return -1;
+    }
+    if (as > bs) {
+      return 1;
+    } 
+    return 0;
+  });
+
+  return (
+    <>
+      <h3>All types</h3>
+      <ul>
+      {
+        types.map(type => (
+          <li key={type.toString()}>
+            <DisplayType type={type} />
+          </li>
+        ))
+      }
+      </ul>
+    </>
+  );
+}
+
+function TypeExplorer({ roots }: { roots: Type[] }) {
+  return (
+    <ul>
+      {
+        roots.map(type => (
+          <li key={type.toString()}>
+            <DisplayType type={type} expand={true} />
+          </li>
+        ))
+      }
+    </ul>
+  );
+}
+
+function DisplayType({ type, expand }: { type: Type, expand?: boolean }) {
+  const [folded, setFolded] = useState(type.isTuple() ? true : !expand);
+  const shortName = type.getShortName();
+  const toggleFolded = () => setFolded(!folded);
+  if (type.args.length === 0) {
+    return (
+      <div
+        className="type"
+      >
+        <span
+          style={{backgroundColor: type.getColor()}}
+        >{ shortName }</span>
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className="type"
+    >
+      <a 
+        onClick={toggleFolded}
+        style={{backgroundColor: type.getColor()}}
+      >{ shortName }</a>
+
+      <ul style={{display: folded ? 'none' : 'block' }}>
+        {
+          type.args.map(type => (
+            <li key={type.toString()}><DisplayType type={type} expand={expand} /></li>
+          ))
+        }
+      </ul>
+    </div>
+  )
 }
 
 export default App;
