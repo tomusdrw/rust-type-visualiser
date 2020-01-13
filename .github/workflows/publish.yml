@@ -22,7 +22,7 @@ jobs:
       run: yarn build
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1.2.5
-      #if: github.ref == 'master'
+      if: github.ref == 'master'
       with:
         # Create incremental commit instead of doing push force
         keep_history: true
