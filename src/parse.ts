@@ -20,7 +20,7 @@ export class Type {
   }
 
   public getColor(): string {
-    if (this.args.length === 1 && this.args[0].args.length != 0) {
+    if (this.args.length === 1 && this.args[0].args.length !== 0) {
       return this.args[0].getColor();
     }
       

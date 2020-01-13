@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: 'Inconsolata', monospace;
 }
 .App .input,
 .App .output {
@@ -34,7 +35,6 @@
 .App .type {
   display: block;
   line-height: 1.5;
-  font-family: monospace;
 }
 .App .type a {
   display: block;
@@ -45,4 +45,7 @@
 }
 .App .type a:hover {
   text-decoration: underline;
+}
+.App .error {
+    color: #e66;
 }
