@@ -114,6 +114,7 @@ function DisplayType({ type, expand }: { type: Type, expand?: boolean }) {
       className="type"
     >
       <a 
+        href="#"
         onClick={toggleFolded}
         style={{backgroundColor: type.getColor()}}
       >{ shortName }</a>
