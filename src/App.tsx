@@ -10,17 +10,20 @@ sp_runtime::traits::BlakeTwo256>, sp_runtime::OpaqueExtrinsic>, node_runtime::Ru
 
 const App: React.FC = () => {
   const [input, setInput] = useState(example);
-  const [result, setResult] = useState(parseInput(input));
-
-  function parseInput(val: string) {
-    return parse(val);
-  }
+  const [error, setError] = useState('');
+  const [result, setResult] = useState(parse(input));
 
   function onChange(val: string) {
     setInput(val);
-    const res = parseInput(val);
-    console.dir(res);
-    setResult(res);
+    try {
+      const res = parse(val);
+      console.dir(res);
+      setError('');
+      setResult(res);
+    } catch (e) {
+      console.error(e);
+      setError(e.toString());
+    }
   }
 
   return (
@@ -33,12 +36,13 @@ const App: React.FC = () => {
           />
         </div>
         <div className="block">
-          <FlatTypes flat={result.flat} />
+          { error && <h1 className="error">{error}</h1> }
+          { !error && <FlatTypes flat={result.flat} /> }
         </div>
       </div>
       <div className="output">
         <div className="block">
-          <TypeExplorer roots={result.roots} />
+          { !error && <TypeExplorer roots={result.roots} /> }
         </div>
       </div>
     </div>
@@ -110,6 +114,7 @@ function DisplayType({ type, expand }: { type: Type, expand?: boolean }) {
       className="type"
     >
       <a 
+        href="#"
         onClick={toggleFolded}
         style={{backgroundColor: type.getColor()}}
       >{ shortName }</a>
