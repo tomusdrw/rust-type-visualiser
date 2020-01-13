@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/rust-type-analyzer/static/css/main.148e0aa3.chunk.css",
-    "main.js": "/rust-type-analyzer/static/js/main.1e1d553f.chunk.js",
-    "main.js.map": "/rust-type-analyzer/static/js/main.1e1d553f.chunk.js.map",
-    "runtime-main.js": "/rust-type-analyzer/static/js/runtime-main.2e5e330a.js",
-    "runtime-main.js.map": "/rust-type-analyzer/static/js/runtime-main.2e5e330a.js.map",
-    "static/js/2.e1762512.chunk.js": "/rust-type-analyzer/static/js/2.e1762512.chunk.js",
-    "static/js/2.e1762512.chunk.js.map": "/rust-type-analyzer/static/js/2.e1762512.chunk.js.map",
-    "index.html": "/rust-type-analyzer/index.html",
-    "precache-manifest.f2af7a2f616483d0373bee5b52c6c693.js": "/rust-type-analyzer/precache-manifest.f2af7a2f616483d0373bee5b52c6c693.js",
-    "service-worker.js": "/rust-type-analyzer/service-worker.js",
-    "static/css/main.148e0aa3.chunk.css.map": "/rust-type-analyzer/static/css/main.148e0aa3.chunk.css.map",
-    "static/js/2.e1762512.chunk.js.LICENSE": "/rust-type-analyzer/static/js/2.e1762512.chunk.js.LICENSE"
+    "main.css": "/rust-type-visualiser/static/css/main.148e0aa3.chunk.css",
+    "main.js": "/rust-type-visualiser/static/js/main.c5e4f970.chunk.js",
+    "main.js.map": "/rust-type-visualiser/static/js/main.c5e4f970.chunk.js.map",
+    "runtime-main.js": "/rust-type-visualiser/static/js/runtime-main.fa68b7a0.js",
+    "runtime-main.js.map": "/rust-type-visualiser/static/js/runtime-main.fa68b7a0.js.map",
+    "static/js/2.e1762512.chunk.js": "/rust-type-visualiser/static/js/2.e1762512.chunk.js",
+    "static/js/2.e1762512.chunk.js.map": "/rust-type-visualiser/static/js/2.e1762512.chunk.js.map",
+    "index.html": "/rust-type-visualiser/index.html",
+    "precache-manifest.e6e888b234c9a7d2e543b9368242b96f.js": "/rust-type-visualiser/precache-manifest.e6e888b234c9a7d2e543b9368242b96f.js",
+    "service-worker.js": "/rust-type-visualiser/service-worker.js",
+    "static/css/main.148e0aa3.chunk.css.map": "/rust-type-visualiser/static/css/main.148e0aa3.chunk.css.map",
+    "static/js/2.e1762512.chunk.js.LICENSE": "/rust-type-visualiser/static/js/2.e1762512.chunk.js.LICENSE"
   },
   "entrypoints": [
-    "static/js/runtime-main.2e5e330a.js",
+    "static/js/runtime-main.fa68b7a0.js",
     "static/js/2.e1762512.chunk.js",
     "static/css/main.148e0aa3.chunk.css",
-    "static/js/main.1e1d553f.chunk.js"
+    "static/js/main.c5e4f970.chunk.js"
   ]
 }
