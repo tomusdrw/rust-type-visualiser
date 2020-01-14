@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
+import Tooltip from 'rc-tooltip';
 import './App.css';
+import 'rc-tooltip/assets/bootstrap_white.css';
 
 import { parse, Type } from './parse';
 
@@ -97,15 +99,20 @@ function DisplayType({ type, expand }: { type: Type, expand?: boolean }) {
   const [folded, setFolded] = useState(type.isTuple() ? true : !expand);
   const shortName = type.getShortName();
   const toggleFolded = () => setFolded(!folded);
+  let name;
   if (type.args.length === 0) {
-    return (
-      <div
-        className="type"
-      >
-        <span
-          style={{backgroundColor: type.getColor()}}
-        >{ shortName }</span>
-      </div>
+    name = (
+      <span
+        style={{backgroundColor: type.getColor()}}
+      >{ shortName }</span>
+    )
+  } else {
+    name = (
+      <a 
+        href="#"
+        onClick={toggleFolded}
+        style={{backgroundColor: type.getColor()}}
+      >{ shortName }</a>
     )
   }
 
@@ -113,19 +120,23 @@ function DisplayType({ type, expand }: { type: Type, expand?: boolean }) {
     <div
       className="type"
     >
-      <a 
-        href="#"
-        onClick={toggleFolded}
-        style={{backgroundColor: type.getColor()}}
-      >{ shortName }</a>
+      <Tooltip
+        placement="top"
+        overlay={expand ? type.getScopedName() : type.toString() }
+        trigger={expand ? 'hover' : 'click'}
+      >
+        { name }
+      </Tooltip>
 
-      <ul style={{display: folded ? 'none' : 'block' }}>
-        {
-          type.args.map(type => (
-            <li key={type.toString()}><DisplayType type={type} expand={expand} /></li>
-          ))
-        }
-      </ul>
+      { type.args.length > 0 && (
+        <ul style={{display: folded ? 'none' : 'block' }}>
+          {
+            type.args.map(type => (
+              <li key={type.toString()}><DisplayType type={type} expand={expand} /></li>
+            ))
+          }
+        </ul>
+      )}
     </div>
   )
 }

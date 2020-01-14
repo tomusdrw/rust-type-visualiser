@@ -28,10 +28,10 @@ export class Type {
     return `hsl(${hue}, 45%, 85%)`;
   }
 
-  public getShortName(): string {
+  public getScopedName(): string {
     // a tuple
     if (this.isTuple()) {
-      return `(${this.args.map(x => x.getShortName()).join(', ')})`;
+      return `(${this.args.map(x => x.getScopedName()).join(', ')})`;
     }
 
     if (this.args.length === 0) {
@@ -39,10 +39,41 @@ export class Type {
     }
 
     if (this.args.length === 1) {
-      return `${this.type}<${this.args[0].getShortName()}>`;
+      return `${this.type}<${this.args[0].getScopedName()}>`;
     }
 
     return `${this.type}<...>`;
+  }
+
+  public getShortName(): string {
+    let short = this.type.split(':').pop() || '';
+
+    if (this.type.startsWith('&mut')) {
+      short = `&mut ${short}`; 
+    }
+
+    if (this.type.startsWith('&')) {
+      short = `&${short}`; 
+    }
+
+    if (this.type.startsWith('dyn ')) {
+      short = `dyn ${short}`;
+    }
+
+    // a tuple
+    if (this.isTuple()) {
+      return `(${this.args.map(x => x.getShortName()).join(', ')})`;
+    }
+
+    if (this.args.length === 0) {
+      return short;
+    }
+
+    if (this.args.length === 1) {
+      return `${short}<${this.args[0].getShortName()}>`;
+    }
+
+    return `${short}<...>`;
   }
 
   public toString(): string {
